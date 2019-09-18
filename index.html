@@ -13,20 +13,27 @@
   <script src='https://baemail.me/static/editor/highlight.pack'></script>
 </head>
 <body>
+  <div class='containscroll'>
+    <div class='scroller'>
   <main role="main" class="container">
     <section>
-      <h1 class="mt-5">Sought.Info</h1>
+      <h1 class="mt-3">Sought.Info</h1>
       <p class="lead">Info shared via Baemail. Share your content to this page via <a href='https://baemail.me/?to=sought'>baemail</a>. Posts are ordered by value.</p>
       <div id='baemails'>
-        loading...
+        <div id='target' class='scrolleypops'>
+          loading...
+        </div>
       </div>
-      <button class='btn-primary' onClick='more()' />More</button>
+      <div class="col-md-4 text-center">
+        <button id="singlebutton" name="singlebutton" class='btn btn-primary center-block' onClick='more()' />More</button>
+      </div>
     </section>
   </main>
 <script>
 let skip = 0
-let l = 5
-function more() {
+let l = 1
+var doItOnce = () => { null }
+let more = () => {
   // call bob
   var query = {
     'v': 3,
@@ -48,8 +55,8 @@ function more() {
       'sort': {
         'out.e.v': -1
       },
-      'skip': skip * l,
-      'limit': l
+      'limit': l,
+      'skip': skip * l
     },
     'r': {
       'f': '[ .[] | [{ to: .out[0].tape[1].cell[1].s, from: .out[0].tape[1].cell[2].s, baemail: (.out[0].tape[1].cell[3].s + .out[0].tape[1].cell[3].ls), tx: .tx.h, amount: .out[1].e.v }] | .[] ]'
@@ -63,27 +70,43 @@ function more() {
   }).then((baemails) => {
     skip += 1
     displayBaemails(baemails)
+    theCount = (baemails.u || []).concat((baemails.c || []))
+    if (theCount.length === 0) {
+      document.querySelector('#target').innerHTML += `<div class='baemail page'>There are no more to load</div>`
+      more = () => { console.log('Infinite scroll disabled')}
+    }
+    doItOnce = () => {
+      doItOnce = () => { null }
+      more()
+    }
   })
 }
+document.querySelector('#target').innerHTML = ''
 more()
 
+let container = document.querySelector('.scroller')
+container.addEventListener("scroll", function(ev) {
+  if (container.scrollHeight < document.documentElement.clientHeight + container.scrollTop + 200) {
+    doItOnce()
+  }
+})
+
 const displayBaemails = (baemails) => {
-  document.querySelector('#baemails').innerHTML = ''
   let allBaes = (baemails.u || []).concat((baemails.c || []))
   baecontent = allBaes.map((b) => {
     var bae = ''
-    console.log('b: ' + JSON.stringify(b))
     bae += `
   <div class='baemail page'>
     <div class='toFromHeader'>
       <div class='txLink'>
         <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
       </div>
-      <div class='publicValueBox'>${b.amount}</div>
+      <div class='author'>
+        Posted by ${b.from} for <span class='publicValueBox'>${b.amount}</span>
+      </div>
     </div>`
     var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
     bodycontent = bodyParts.map((block) => {
-      console.log('block: ' + JSON.stringify(block))
       switch (block.type) {
         case 'header': {
           return `
@@ -116,13 +139,16 @@ const displayBaemails = (baemails) => {
     })
     bae += `
     <div class='actionFooter'>
-      <div class='controlButton L zerothButtonL replyButton' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
+      <div class='controlButton L zerothButtonL' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
+      <div class='controlButton R zerothButtonR warnHover' onClick="window.location.href='https://baemail.me/?to=deggen@probat.us'" title='Flag As Innappropriate'>!</div>
     </div>
   </div>
   `
-  document.querySelector('#baemails').innerHTML += bae
+  document.querySelector('#target').innerHTML += bae
   })
 }
 </script>
+</div>
+</div>
 </body>
 </html>

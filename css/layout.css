@@ -1,10 +1,24 @@
+.scroller {
+  flex-grow: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100vh;
+  width: 100vw;
+}
+
+.containscroll {
+  overflow-x: scroll;
+  height: 100vh;
+  width: 100vw;
+}
+
 .baemail{
   padding:20px;
   margin-bottom:20px;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 9px 0px;
-  overflow: hidden;
   word-break: break-word;
+  overflow: hidden;
 }
 
 .baemail a {
@@ -95,15 +109,11 @@
   font-size: 10px;
 }
 
-.txLink a:hover {
-  transform: scale(2);
-}
-
 .txLink a {
   color: black;
   padding: 10px;
-  position: absolute;
   margin: -10px;
+  position: relative;
 }
 
 .valueBox{
@@ -285,7 +295,7 @@ pre code {
 @media (max-width: 540px) {
   h1{text-align: center;}
   .nametarget{font-size: 30px;margin-bottom: 40px;text-align: center;}
-  section{width:92vw;padding:30px 3vw;}
+  section{width:100vw;padding:30px 2vw;}
   #message, #editorjs{width:90vw;}
   nav{width:90%;padding:13px 4% 20px;}
   .avatar{width: 60px;}
@@ -296,4 +306,6 @@ pre code {
   .archiveLink, .unarchiveLink { margin: 30px 20px 0; }
   pre code { font-size: 8px; }
   .fromImage { margin: 0 10px -5px 0px; }
+  .container { width: 100vw !important; padding: 0 !important; }
+  p.lead { padding: 5vw;}
 }
