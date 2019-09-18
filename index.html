@@ -6,6 +6,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no' />
   <link href='https://fonts.googleapis.com/css?family=Fira+Code:300,400,500&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext' rel='stylesheet' />
   <link href='https://baemail.me/static/editor/style.css' rel='stylesheet' />
+  <link href='css/layout.css' rel='stylesheet' />
   <link href='https://baemail.me/static/editor/atom-one-dark.css' rel='stylesheet' />
   <link href='css/bootstrap.min.css' rel='stylesheet' />
   <script src='https://www.moneybutton.com/moneybutton.js'></script>
@@ -13,12 +14,14 @@
 </head>
 <body>
   <main role="main" class="container">
-    <h1 class="mt-5">Sought.Info</h1>
-    <p class="lead">Info shared via Baemail. Share your content to this page via <a href='https://baemail.me/?to=sought'>baemail</a>. Posts are ordered by value.</p>
-    <div id='target'>
-      loading...
-    </div>
-    <button class='btn-primary' onClick='more()' />More</button>
+    <section>
+      <h1 class="mt-5">Sought.Info</h1>
+      <p class="lead">Info shared via Baemail. Share your content to this page via <a href='https://baemail.me/?to=sought'>baemail</a>. Posts are ordered by value.</p>
+      <div id='baemails'>
+        loading...
+      </div>
+      <button class='btn-primary' onClick='more()' />More</button>
+    </section>
   </main>
 <script>
 let skip = 0
@@ -65,17 +68,18 @@ function more() {
 more()
 
 const displayBaemails = (baemails) => {
+  document.querySelector('#baemails').innerHTML = ''
   let allBaes = (baemails.u || []).concat((baemails.c || []))
   baecontent = allBaes.map((b) => {
     var bae = ''
     console.log('b: ' + JSON.stringify(b))
     bae += `
-  <div className='baemail page'>
-    <div className='toFromHeader'>
-      <div className='txLink'>
+  <div class='baemail page'>
+    <div class='toFromHeader'>
+      <div class='txLink'>
         <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
       </div>
-      <div className='publicValueBox'>${b.amount}</div>
+      <div class='publicValueBox'>${b.amount}</div>
     </div>`
     var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
     bodycontent = bodyParts.map((block) => {
@@ -88,7 +92,7 @@ const displayBaemails = (baemails) => {
         }
         case 'image': {
           return `
-            <div><br /><br /><img src='${block.data.url}' className='embeddedImage' /><br /><br /></div>
+            <div><br /><br /><img src='${block.data.url}' class='embeddedImage' /><br /><br /></div>
           `
         }
         case 'code': {
@@ -111,12 +115,12 @@ const displayBaemails = (baemails) => {
       bae += b
     })
     bae += `
-    <div className='actionFooter'>
-      <div className='controlButton L zerothButtonL replyButton' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Reply</div>
+    <div class='actionFooter'>
+      <div class='controlButton L zerothButtonL replyButton' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
     </div>
   </div>
   `
-  document.querySelector('#target').innerHTML += bae
+  document.querySelector('#baemails').innerHTML += bae
   })
 }
 </script>

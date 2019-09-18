@@ -1,0 +1,299 @@
+.baemail{
+  padding:20px;
+  margin-bottom:20px;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 9px 0px;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.baemail a {
+  color: black;
+}
+
+.fromImage {
+  width: 30px;
+  border-radius: 15px;
+  display: inline;
+  margin: 0px 10px -10px 0px;
+}
+
+.avatar{
+  float: right;
+  margin: 0 15px 10px 5vw;
+  width: 80px;
+  padding: 0;
+  overflow: auto;
+}
+
+.profile{
+  overflow: auto;
+}
+
+.avatar:after{
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.avatar img{
+  border-radius: 40px;
+}
+
+.logout {
+  width: 100%;
+  height: 30px;
+  border: none;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  color: rgb(229, 77, 63);
+  box-shadow: none;
+  border-radius: 12px;
+  background: rgba(0,0,0,0);
+}
+
+.logout:hover{
+  background: rgb(229, 77, 63);
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 9px 0px;
+}
+
+.target {
+  margin-top: 60px;
+}
+
+.slideAmount {
+  width: 80%;
+  margin: 15px 10% 25px 10%;
+}
+
+.multiplier, .divider {
+  border-radius: 30px;
+  box-shadow: rgba(0,0,0,.18) 0 2px 9px 0;
+  padding: 8px;
+  color: white;
+  font-size: 10px;
+  background: rgb(229, 77, 63);
+  cursor: pointer;
+}
+
+.divider {
+  float: left;
+  margin: -4px 0 0 -10%;
+}
+
+.multiplier {
+  float: right;
+  margin: -4px -10% 0 0;
+}
+
+.txLink {
+  float: right;
+  margin-right: 20px;
+  align-content: center;
+  font-size: 10px;
+}
+
+.txLink a:hover {
+  transform: scale(2);
+}
+
+.txLink a {
+  color: black;
+  padding: 10px;
+  position: absolute;
+  margin: -10px;
+}
+
+.valueBox{
+  float: right;
+  margin-top: 10px;
+}
+
+.publicValueBox{
+  font-size: 14px;
+  color: #a1a1a1;
+  font-weight: 600;
+}
+
+.replyButton::before {
+  background-image: url(/static/icons/reply_black_20dp.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.controlButton {
+  display: inline-table;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  margin: -15px 0 -20px 0;
+  padding: 10px 20px;
+  background: #fcfcfc;
+}
+
+.L {
+  float: left;
+  border-right: 1px solid #eaeaea;
+}
+
+.R {
+  float: right;
+  border-left: 1px solid #eaeaea;
+}
+
+.zerothButtonR {
+  margin-right: -20px;
+}
+
+.zerothButtonL {
+  margin-left: -20px;
+}
+
+.controlButton:hover {
+  background: #f2f2f2;
+}
+
+.warnHover:hover {
+  background: #df5e53;
+  color: white;
+}
+
+.fullPageAlert {
+  position: relative;
+  background: #4772f6;
+  float: none;
+  z-index: 20;
+  text-align: center;
+  padding: 10%;
+  color: #fff;
+  font-size: large;
+  width: 80%;
+  margin: -25% 0% 10%;
+  border-radius: 12px;
+  box-shadow: rgba(0,0,0,.18) 0 2px 9px 0;
+  display: inline-block;
+}
+
+.quote {
+  font-style: italic;
+  color: #a1a1a1;
+}
+
+.questions {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4772f6;
+}
+
+.warning {
+  color: #e54d3f
+}
+
+// This is for the EditorJS
+
+.codex-editor__redactor {
+  padding-bottom: 120px !important;
+}
+
+.codex-editor {
+  background white;
+}
+
+.ce-block__content, .ce-toolbar__content {
+  max-width: 750px !important;
+}
+
+.ce-block--focused {
+    background-image: none;
+    border-radius: 3px;
+}
+
+.cdx-input {
+  background: #2b2b2b !important;
+  color: white !important;
+  font-family: 'Fira Code' !important;
+  font-weight: 500 !important;
+  word-break: break-all;
+}
+
+pre code {
+  display: none;
+  margin: 0 -20px 0 -20px;
+}
+
+.toggleSwitch {
+  padding: 4px 0 0 0;
+  position: absolute;
+  margin: -19px 0px 0px 70px;
+  width: 150px;
+  border-radius: 12px;
+  background: #eaeaea;
+  border: 1px solid #ababab;
+  height: 17px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.toggleText {
+  height: 20px;
+  margin: -4px 0 0 0;
+  padding: 4px 15px 4px 10%;
+  font-weight: 300;
+}
+
+.toggleAdvanced {
+  padding: 4px 50px 4px 10px;
+}
+
+.toggleText:hover, .toggleAdvanced:hover {
+  font-weight: 500;
+}
+
+.toggledOn {
+  font-weight: 500;
+  background: #4772f6;
+  color: white;
+}
+
+.embeddedImage {
+  max-width: 100%;
+  max-height: 70vh;
+}
+
+.toFromHeader {
+  border-bottom: 1px solid #eee;
+  margin: -20px -20px 30px -20px;
+  padding: 20px;
+  background: #fcfcfc;
+}
+
+.actionFooter {
+  border-top: 1px solid #eee;
+  margin: 25px -20px -20px -20px;
+  padding: 15px 20px 25px 20px;
+  background: #fcfcfc;
+}
+
+.toFromHeader > small {
+  display: inline-block;
+  width: 70%;
+}
+
+@media (max-width: 540px) {
+  h1{text-align: center;}
+  .nametarget{font-size: 30px;margin-bottom: 40px;text-align: center;}
+  section{width:92vw;padding:30px 3vw;}
+  #message, #editorjs{width:90vw;}
+  nav{width:90%;padding:13px 4% 20px;}
+  .avatar{width: 60px;}
+  .avatar img{border-radius: 30px;width: 60px;}
+  .slideAmount{width: 60%;margin: 15px 20% 25px 20%;}
+  .divider {margin: -4px 0 0 -25%;}
+  .multiplier {margin: -4px -25% 0 0;}
+  .archiveLink, .unarchiveLink { margin: 30px 20px 0; }
+  pre code { font-size: 8px; }
+  .fromImage { margin: 0 10px -5px 0px; }
+}
