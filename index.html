@@ -1,9 +1,27 @@
 <html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Sought Info</title>
+  <meta name='description' content='Open Blog - post here from Baemail.' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no' />
+  <link href='https://fonts.googleapis.com/css?family=Fira+Code:300,400,500&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext' rel='stylesheet' />
+  <link href='https://baemail.me/static/editor/style.css' rel='stylesheet' />
+  <link href='https://baemail.me/static/editor/atom-one-dark.css' rel='stylesheet' />
+  <script src='https://www.moneybutton.com/moneybutton.js'></script>
+  <script src='https://baemail.me/static/editor/highlight.pack'></script>
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
 <body>
+  <h1>Sought.Info</h1>
   <div id='target'>
     loading...
   </div>
 <script>
+let skip = 0
+let l = 5
 // call bob
 var query = {
   'v': 3,
@@ -13,7 +31,7 @@ var query = {
       'out.tape.cell': {
         '$all': [
           { '$elemMatch': { 'i': 0, 's': '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } },
-          { '$elemMatch': { 'i': 1, 's': { '$regex': 'baemail@moneybutton.com' } } },
+          { '$elemMatch': { 'i': 1, 's': { '$regex': 'sought@moneybutton.com' } } },
           { '$elemMatch': { 'i': 4, 's': 'false' } }
         ]
       },
@@ -25,7 +43,8 @@ var query = {
     'sort': {
       'out.e.v': -1
     },
-    'limit': 10
+    'skip': skip * l,
+    'limit': l
   },
   'r': {
     'f': '[ .[] | [{ to: .out[0].tape[1].cell[1].s, from: .out[0].tape[1].cell[2].s, baemail: (.out[0].tape[1].cell[3].s + .out[0].tape[1].cell[3].ls), tx: .tx.h, amount: .out[1].e.v }] | .[] ]'
@@ -37,7 +56,8 @@ var url = 'https://bob.planaria.network/q/1GgmC7Cg782YtQ6R9QkM58voyWeQJmJJzG/' +
 fetch(url, header).then((r) => {
   return r.json()
 }).then((baemails) => {
-  console.log(baemailsreq)
+  skip += 1
+  console.log(baemails)
 })
 </script>
 </body>
