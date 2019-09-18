@@ -11,11 +11,6 @@
   <link href='css/bootstrap.min.css' rel='stylesheet' />
   <script src='https://www.moneybutton.com/moneybutton.js'></script>
   <script src='https://baemail.me/static/editor/highlight.pack'></script>
-  <script src = "node_modules/clientside-require/dist/bundle.js"></script>
-  <script>
-    const nodeFetch = load('node-fetch')
-    const crypto = load('crypto-price')
-  </script>
 </head>
 <body>
   <div class='containscroll'>
@@ -104,15 +99,6 @@ container.addEventListener("scroll", function(ev) {
   }
 })
 
-const localPrice = (amount, idx) => {
-  crypto.getCryptoPrice('USD', 'BSV').then(res => {
-    console.log(amount + ' satoshis')
-    const nemount = this.showCurrency(res.price * amount * 0.0000001)
-    const ar = document.querySelectorAll('.publicValueBox')
-    ar[idx].innerText = nemount
-  })
-}
-
 const displayBaemails = (baemails) => {
   let allBaes = (baemails.u || []).concat((baemails.c || []))
   var idx = 0
@@ -125,7 +111,7 @@ const displayBaemails = (baemails) => {
         <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
       </div>
       <div class='author'>
-        Posted by ${b.from} for <span class='publicValueBox'>${localPrice(b.amount, idx)}</span>
+        Posted by ${b.from} for <span class='publicValueBox'>${Number(parseFloat(b.amount) / 100000000).toFixed(8)} BSV</span>
       </div>
     </div>`
     var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
