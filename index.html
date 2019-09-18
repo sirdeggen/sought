@@ -50,7 +50,7 @@ let more = () => {
         'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
       },
       'sort': {
-        'out.e.v': -1
+        'out.1.e.v': -1
       },
       'limit': l,
       'skip': skip * l
@@ -75,11 +75,19 @@ let more = () => {
     doItOnce = () => {
       doItOnce = () => { null }
       more()
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block)
+        block.style.display = 'block'
+      })
     }
   })
 }
 document.querySelector('#target').innerHTML = ''
 more()
+document.querySelectorAll('pre code').forEach((block) => {
+  hljs.highlightBlock(block)
+  block.style.display = 'block'
+})
 
 let container = document.querySelector('.scroller')
 container.addEventListener("scroll", function(ev) {
