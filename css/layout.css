@@ -229,9 +229,18 @@
   word-break: break-all;
 }
 
+pre {
+  margin: 0 -20px;
+  padding: 0;
+}
+
 pre code {
   display: none;
-  margin: 0 -20px 0 -20px;
+  overflow: visible;
+}
+
+.hljs {
+  padding: 10px 20px !important;
 }
 
 .toggleSwitch {
