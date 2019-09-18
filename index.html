@@ -7,6 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Fira+Code:300,400,500&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext' rel='stylesheet' />
   <link href='https://baemail.me/static/editor/style.css' rel='stylesheet' />
   <link href='https://baemail.me/static/editor/atom-one-dark.css' rel='stylesheet' />
+  <link href='css/bootstrap.min.css' rel='stylesheet' />
   <script src='https://www.moneybutton.com/moneybutton.js'></script>
   <script src='https://baemail.me/static/editor/highlight.pack'></script>
 </head>
@@ -49,12 +50,17 @@ var query = {
 var header = { headers: { key: '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } }
 var b64 = btoa(JSON.stringify(query))
 var url = 'https://bob.planaria.network/q/1GgmC7Cg782YtQ6R9QkM58voyWeQJmJJzG/' + b64
-fetch(url, header).then((r) => {
-  return r.json()
-}).then((baemails) => {
-  skip += 1
-  console.log(baemails)
-})
+function more() {
+  fetch(url, header).then((r) => {
+    return r.json()
+  }).then((baemails) => {
+    skip += 1
+    console.log(skip)
+    console.log(baemails)
+  })
+}
+more()
 </script>
+<button onClick='more()' />More</button>
 </body>
 </html>
