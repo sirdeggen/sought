@@ -1,2 +1,0 @@
-# sought
-Sought.info blog
