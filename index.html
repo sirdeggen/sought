@@ -73,7 +73,7 @@ let more = () => {
     theCount = (baemails.u || []).concat((baemails.c || []))
     if (theCount.length === 0) {
       document.querySelector('#target').innerHTML += `<div class='baemail page'>There are no more to load</div>`
-      more = () => { console.log('Infinite scroll disabled')}
+      more = () => { console.log('Infinite scroll reached last post')}
     }
     doItOnce = () => {
       doItOnce = () => { null }
