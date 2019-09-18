@@ -59,11 +59,66 @@ function more() {
     return r.json()
   }).then((baemails) => {
     skip += 1
-    console.log(skip)
-    console.log(baemails)
+    displayBaemails(baemails)
   })
 }
 more()
+
+const displayBaemails = (baemails) => {
+  let allBaes = (baemails.u || []).concat((baemails.c || []))
+  baecontent = allBaes.map((b) => {
+    var bae = ''
+    console.log('b: ' + JSON.stringify(b))
+    bae += `
+  <div className='baemail page'>
+    <div className='toFromHeader'>
+      <div className='txLink'>
+        <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
+      </div>
+      <div className='publicValueBox'>${b.amount}</div>
+    </div>`
+    var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
+    bodycontent = bodyParts.map((block) => {
+      console.log('block: ' + JSON.stringify(block))
+      switch (block.type) {
+        case 'header': {
+          return `
+            <h2>${block.data.text}</h2>
+          `
+        }
+        case 'image': {
+          return `
+            <div><br /><br /><img src='${block.data.url}' className='embeddedImage' /><br /><br /></div>
+          `
+        }
+        case 'code': {
+          return `
+            <pre><code>${block.data.code}</code></pre>
+          `
+        }
+        case undefined:
+          return `
+            <pre>loading...</pre>
+          `
+        default: {
+          return `
+            <p>${block.data.text}</p>
+          `
+        }
+      }
+    })
+    bodycontent.forEach((b) => {
+      bae += b
+    })
+    bae += `
+    <div className='actionFooter'>
+      <div className='controlButton L zerothButtonL replyButton' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Reply</div>
+    </div>
+  </div>
+  `
+  document.querySelector('#target').innerHTML += bae
+  })
+}
 </script>
 </body>
 </html>
