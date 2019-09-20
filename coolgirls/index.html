@@ -18,7 +18,7 @@
   <main role="main" class="container">
     <section>
       <h1 class="mt-3">Cool Girls</h1>
-      <p class="lead">Share your content to this page via <a href='https://baemail.me/?to=coolgirls'>baemail</a>. Posts are ordered by value.</p>
+      <p class="lead">Share your content to this page via <a href='https://baemail.me/?to=coolgirls'>baemail</a>. Posts are ordered by value, minimum value to post is 0.001 BSV.</p>
       <div id='baemails'>
         <div id='target' class='scrolleypops'>
           loading...
@@ -40,12 +40,12 @@ let more = async () => {
         'out.tape.cell': {
           '$all': [
             { '$elemMatch': { 'i': 0, 's': '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } },
-            { '$elemMatch': { 'i': 1, 's': { '$regex': 'baemail@moneybutton.com' } } },
+            { '$elemMatch': { 'i': 1, 's': { '$regex': 'coolgirls@moneybutton.com' } } },
             { '$elemMatch': { 'i': 4, 's': 'false' } }
           ]
         },
         'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] },
-        'out.1.e.v': { '$gt': 100 }
+        'out.1.e.v': { '$gt': 100000 }
       },
       'project': {
         'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
