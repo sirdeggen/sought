@@ -40,11 +40,12 @@ let more = async () => {
         'out.tape.cell': {
           '$all': [
             { '$elemMatch': { 'i': 0, 's': '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } },
-            { '$elemMatch': { 'i': 1, 's': { '$regex': 'sought@moneybutton.com' } } },
+            { '$elemMatch': { 'i': 1, 's': { '$regex': 'baemail@moneybutton.com' } } },
             { '$elemMatch': { 'i': 4, 's': 'false' } }
           ]
         },
-        'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] }
+        'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] },
+        'out.1.e.v': { '$gt': 100 }
       },
       'project': {
         'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
