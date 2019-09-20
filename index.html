@@ -99,6 +99,22 @@ container.addEventListener("scroll", function(ev) {
   }
 })
 
+const getPrice = (satoshis) => {
+  var url = 'https://www.relayx.io/v1/spot/currency/rate/10024'
+  var options = { headers: {devId: '1relayone'} }
+  var price = fetch(url, options)
+    .then(data => data.json())
+    .then(res => {
+      var displayPrice = '$' + Number(((satoshis / 100000000) / res.data.exchangeRate)).toFixed(2)
+      if (displayPrice === '$0.00') {
+        displayPrice = '< 1¢'
+      }
+      console.log(displayPrice)
+    })
+}
+
+getPrice(8625749)
+
 const displayBaemails = (baemails) => {
   let allBaes = (baemails.u || []).concat((baemails.c || []))
   var idx = 0
@@ -111,7 +127,7 @@ const displayBaemails = (baemails) => {
         <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
       </div>
       <div class='author'>
-        Posted by ${b.from} for <span class='publicValueBox'>${Number(parseFloat(b.amount) / 100000000).toFixed(8)} BSV</span>
+        Posted by ${b.from} for <span class='publicValueBox'>${b.amount} satoshis</span>
       </div>
     </div>`
     var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
