@@ -78,7 +78,7 @@ let more = async () => {
     displayBaemails(baemails)
     theCount = (baemails.u || []).concat((baemails.c || []))
     if (theCount.length === 0) {
-      document.querySelector('#target').innerHTML += `<div class='baemail page'>There are no more to load</div>`
+      document.querySelector('#target').innerHTML += `<div class='baemail page text-center'>Congratulations, you have reached the end of the metanet. Please switch off your computer, go outside, make new friends, and talk to your loved ones.</div>`
       more = async () => { console.log('Infinite scroll reached last post')}
     }
     doItOnce = () => {
