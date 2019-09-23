@@ -31,6 +31,7 @@
 const url_string = window.location.href
 const url = new URL(url_string)
 let board = url.pathname.replace(/\//g,'')
+console.log(board)
 if (board === null) { board = 'sought'}
 if (!board.includes('@')) { boardPaymail = board + '@moneybutton.com'} else { boardPaymail = board }
 
