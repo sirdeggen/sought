@@ -47,7 +47,7 @@ let more = async () => {
         'out.tape.cell': {
           '$all': [
             { '$elemMatch': { 'i': 0, 's': '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } },
-            { '$elemMatch': { 'i': 1, 's': { '$regex': `${boardPaymail}` } } },
+            { '$elemMatch': { 'i': 1, 's': { '$regex': `"${boardPaymail}"` } } },
             { '$elemMatch': { 'i': 4, 's': 'false' } }
           ]
         },
