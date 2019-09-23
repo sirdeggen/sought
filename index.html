@@ -30,7 +30,7 @@
 // find out which board we're on
 const url_string = window.location.href
 const url = new URL(url_string)
-let board = url.searchParams.get('b')
+let board = url.pathname.replace(/\//g,'')
 if (board === null) { board = 'sought'}
 if (!board.includes('@')) { boardPaymail = board + '@moneybutton.com'} else { boardPaymail = board }
 
