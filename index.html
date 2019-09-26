@@ -9,8 +9,8 @@
   <link href='https://sought.info/css/layout.css' rel='stylesheet' />
   <link href='https://baemail.me/static/editor/atom-one-dark.css' rel='stylesheet' />
   <link href='https://sought.info/css/bootstrap.min.css' rel='stylesheet' />
-  <script src='https://www.moneybutton.com/moneybutton.js'></script>
   <script src='https://baemail.me/static/editor/highlight.pack'></script>
+  <script src="https://www.moneybutton.com/moneybutton.js"></script>
 </head>
 <body>
   <div class='containscroll'>
@@ -34,6 +34,7 @@ let board = url.pathname.replace(/\//g,'')
 console.log(board)
 if (board === '') { board = 'sought'}
 if (!board.includes('@')) { boardPaymail = board + '@moneybutton.com'} else { boardPaymail = board }
+boardPaymail = 'sought@moneybutton.com'
 
 let skip = 0
 let l = 5
@@ -189,6 +190,16 @@ const displayBaemails = (baemails) => {
     bae += `
     <div class='actionFooter'>
       <div class='controlButton L zerothButtonL' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
+      <div class="money-button"
+        data-to="${b.from}"
+        data-amount="0.10"
+        data-currency="USD"
+        data-label="Tip Author"
+        data-client-identifier="8721dd35bb38889b5c387a696b35c223"
+        data-button-id="1569502304659"
+        data-button-data="{}"
+        data-type="tip"
+      ></div>
       <div class='controlButton R zerothButtonR warnHover' onClick="window.location.href='https://baemail.me/?to=deggen@probat.us'" title='Flag As Innappropriate'>!</div>
       </div>
     </div>
