@@ -190,9 +190,9 @@ const displayBaemails = (baemails) => {
       bae += b
     })
     bae += `
+    <div id="tipButton${b.tx}"></div>
     <div class='actionFooter'>
       <div class='controlButton L zerothButtonL' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
-      <div id="tipButton${b.tx}"></div>
       <div class='controlButton R zerothButtonR warnHover' onClick="window.location.href='https://baemail.me/?to=deggen@probat.us'" title='Flag As Innappropriate'>!</div>
       </div>
     </div>
@@ -207,7 +207,8 @@ const displayBaemails = (baemails) => {
     moneyButton.render(div, {
       to: `${b.from}`,
       amount: "0.10",
-      currency: "[currency]"
+      currency: "USD",
+      label: 'Tip Author'
     })
   })
 }
