@@ -302,7 +302,7 @@ pre code {
 }
 
 
-iframe {
+.videoEmbed {
   width: 100%;
   height: calc(9/16 * 74vw)
 }
