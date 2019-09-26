@@ -123,7 +123,6 @@ const getPrice = async (satoshis, tx) => {
     displayPrice = '< 1¢'
   }
   var selection = '.price' + tx
-  document.querySelector(selection).innerText = ''
   document.querySelector(selection).innerText = await displayPrice
 }
 
@@ -139,7 +138,7 @@ const displayBaemails = (baemails) => {
         <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
       </div>
       <div class='author'>
-        Posted by ${b.from} for <span class='publicValueBox price${b.tx}'>${(getPrice(b.amount, b.tx) || '')}</span>
+        Posted by ${b.from} for <span class='publicValueBox price${b.tx}'></span>
       </div>
     </div>`
     var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
@@ -196,6 +195,7 @@ const displayBaemails = (baemails) => {
   `
   document.querySelector('#target').innerHTML += bae
   idx += 1
+  getPrice(b.amount, b.tx)
   })
 }
 document.querySelector('.leadh1').innerText = board
