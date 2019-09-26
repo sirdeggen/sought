@@ -207,7 +207,8 @@ const displayBaemails = (baemails) => {
       to: `${b.from}`,
       amount: "0.10",
       currency: "USD",
-      label: 'Tip Author'
+      label: 'Tip Author',
+      buttonData: JSON.stringify({"Reason": `For your post on sought.info/${board}`, "tx": `${b.tx}`})
     })
   })
 }
