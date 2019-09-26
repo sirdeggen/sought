@@ -161,7 +161,7 @@ const displayBaemails = (baemails) => {
         }
         case 'paragraph':
           return `
-            <pre>loading...</pre>
+            <p>${block.data.text}</p>
           `
         case 'embed':
           switch (block.data.service) {
@@ -172,6 +172,10 @@ const displayBaemails = (baemails) => {
             default:
               return ``
             }
+        case undefined:
+          return `
+            <pre>undefined data type</pre>
+          `
         default: {
           return `
             <p>${block.data.text}</p>
