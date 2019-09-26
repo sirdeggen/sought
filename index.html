@@ -52,8 +52,7 @@ let more = async () => {
             { '$elemMatch': { 'i': 4, 's': 'false' } }
           ]
         },
-        'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] },
-        'out.1.e.v': { '$gt': 1000 }
+        'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] }
       },
       'project': {
         'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
