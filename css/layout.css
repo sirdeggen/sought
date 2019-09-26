@@ -304,7 +304,7 @@ pre code {
 
 iframe.videoEmbed {
   width: 100%;
-  height: calc(9/16 * 74vw)
+  height: calc(9/16 * 66vw)
 }
 
 @media (max-width: 540px) {
