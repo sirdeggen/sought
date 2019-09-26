@@ -109,6 +109,8 @@ container.addEventListener("scroll", function(ev) {
 
 var ex = null
 const getPrice = async (satoshis, tx) => {
+  var selection = '.price' + tx
+  document.querySelector(selection).innerText = ''
   if (ex === null) {
     var url = 'https://www.relayx.io/v1/spot/currency/rate/10024'
     var options = { headers: {devId: '1relayone'} }
@@ -122,7 +124,6 @@ const getPrice = async (satoshis, tx) => {
   if (displayPrice === '$0.00') {
     displayPrice = '< 1¢'
   }
-  var selection = '.price' + tx
   document.querySelector(selection).innerText = await displayPrice
 }
 
