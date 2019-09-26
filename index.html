@@ -160,10 +160,19 @@ const displayBaemails = (baemails) => {
             <pre><code>${block.data.code}</code></pre>
           `
         }
-        case undefined:
+        case 'paragraph':
           return `
             <pre>loading...</pre>
           `
+        case 'embed':
+          switch (block.data.service) {
+            case 'youtube':
+              return `
+                <iframe width="560" height="315" src="${block.data.url}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              `
+            case default:
+              return ``
+            }
         default: {
           return `
             <p>${block.data.text}</p>
