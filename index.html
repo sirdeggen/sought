@@ -128,6 +128,19 @@ const getPrice = async (satoshis, tx) => {
   document.querySelector(selection).innerText = await displayPrice
 }
 
+const decodeHtml = (html) => {
+  var doc = new DOMParser().parseFromString(html, 'text/html')
+  return doc.body.textContent || ''
+}
+
+const findLinks = (text) => {
+  let removeLinks = text.replace(/(?:<a.*?>)(.*)?(?:<\/a>)/igm, '$1')
+  let cleantext = decodeHtml(removeLinks)
+  let links = cleantext.replace(/((https?|ftp|file):\/\/(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$]))/igm, '<a target="_blank" href="$1">$1</a>')
+  let tex = links.replace(/(?:(?:bit|b):\/\/)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm, '<a target="_blank" href="https://bico.media/$&">$&</a>')
+  return tex
+}
+
 const displayBaemails = (baemails) => {
   let allBaes = (baemails.u || []).concat((baemails.c || []))
   var idx = 0
@@ -163,7 +176,7 @@ const displayBaemails = (baemails) => {
         }
         case 'paragraph':
           return `
-            <p>${block.data.text}</p>
+            <p>${decodeHtml(block.data.text)}</p>
           `
         case 'embed':
           switch (block.data.service) {
