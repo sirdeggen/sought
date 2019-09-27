@@ -134,9 +134,8 @@ const decodeHtml = (html) => {
 }
 
 const findLinks = (text) => {
-  let removeLinks = text.replace(/(?:<a.*?>)(.*)?(?:<\/a>)/igm, '$1')
-  let cleantext = decodeHtml(removeLinks)
-  let links = cleantext.replace(/((https?|ftp|file):\/\/(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$]))/igm, '<a target="_blank" href="$1">$1</a>')
+  let cleantext = decodeHtml(text)
+  let links = cleantext.replace(/(?!<a[^>]*?>)((https?|ftp|file):\/\/(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$]))(?![^<]*?<\/a>)/igm, '<a target="_blank" href="$1">$1</a>')
   let tex = links.replace(/(?:(?:bit|b):\/\/)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm, '<a target="_blank" href="https://bico.media/$&">$&</a>')
   return tex
 }
