@@ -176,7 +176,7 @@ const displayBaemails = (baemails) => {
         }
         case 'paragraph':
           return `
-            <p>${decodeHtml(block.data.text)}</p>
+            <p>${findLinks(block.data.text)}</p>
           `
         case 'embed':
           switch (block.data.service) {
