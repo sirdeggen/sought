@@ -1,0 +1,233 @@
+<html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Sought Info</title>
+  <meta name='description' content='Open Blog - post here from Baemail.' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no' />
+  <link href='https://fonts.googleapis.com/css?family=Fira+Code:300,400,500&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext' rel='stylesheet' />
+  <link href='https://baemail.me/static/editor/style.css' rel='stylesheet' />
+  <link href='https://sought.info/css/layout.css' rel='stylesheet' />
+  <link href='https://baemail.me/static/editor/atom-one-dark.css' rel='stylesheet' />
+  <link href='https://sought.info/css/bootstrap.min.css' rel='stylesheet' />
+  <script src='https://baemail.me/static/editor/highlight.pack'></script>
+  <script src="https://www.moneybutton.com/moneybutton.js"></script>
+</head>
+<body>
+  <div class='containscroll'>
+    <div class='scroller'>
+  <main role="main" class="container">
+    <section>
+      <h1 class="leadh1 mt-3" style='text-transform: capitalize;'>_</h1>
+      <p class="lead">Share your content to this page via <a class='leadLink' href='#'>baemail</a>. Posts are ordered by descending value. The owner of the board's paymail will receive all funds sent. Only post content you think will accumulate more tips than it cost you to add.</p>
+      <div id='baemails'>
+        <div id='target' class='scrolleypops'>
+          loading...
+        </div>
+      </div>
+    </section>
+  </main>
+<script>
+// find out which board we're on
+const url_string = window.location.href
+const url = new URL(url_string)
+let board = url.pathname.replace(/\//g,'')
+console.log(board)
+if (board === '') { board = 'sought'}
+if (!board.includes('@')) { boardPaymail = board + '@moneybutton.com'} else { boardPaymail = board }
+
+let skip = 0
+let l = 5
+var doItOnce = () => { null }
+let more = async () => {
+  // call bob
+  var query = {
+    'v': 3,
+    'q': {
+      'find': {
+        '$or': [ { 'blk.i': { '$exists': false } }, { 'blk.i': { '$gt': 600439 } } ],
+        'out.tape.cell': {
+          '$all': [
+            { '$elemMatch': { 'i': 0, 's': '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } },
+            { '$elemMatch': { 'i': 1, 's': { '$regex': `"${boardPaymail}"` } } },
+            { '$elemMatch': { 'i': 4, 's': 'false' } }
+          ]
+        },
+        'tx.h': { '$nin': ['81776549db35f2936317d4803df841bc9104557b92305e20371ac773cff83ea7'] }
+      },
+      'project': {
+        'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
+      },
+      'sort': {
+        'out.1.e.v': -1
+      },
+      'limit': l,
+      'skip': skip * l
+    },
+    'r': {
+      'f': '[ .[] | [{ to: .out[0].tape[1].cell[1].s, from: .out[0].tape[1].cell[2].s, baemail: (.out[0].tape[1].cell[3].s + .out[0].tape[1].cell[3].ls), tx: .tx.h, amount: .out[1].e.v }] | .[] ]'
+    }
+  }
+  var header = { headers: { key: '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } }
+  var b64 = btoa(JSON.stringify(query))
+  var url = 'https://bob.planaria.network/q/1GgmC7Cg782YtQ6R9QkM58voyWeQJmJJzG/' + b64
+  fetch(url, header).then((r) => {
+    return r.json()
+  }).then((baemails) => {
+    skip += 1
+    displayBaemails(baemails)
+    theCount = (baemails.u || []).concat((baemails.c || []))
+    if (theCount.length === 0) {
+      let endpost = document.createElement('DIV')
+      endpost.innerHTML = `<div class='baemail page text-center'>Congratulations, you have reached the end of the metanet. Please switch off your computer, go outside, make new friends, and talk to your loved ones.</div>`
+      document.querySelector('#target').appendChild(endpost)
+      more = async () => { console.log('Infinite scroll reached last post')}
+    }
+    doItOnce = () => {
+      doItOnce = () => { null }
+      more().then(()=> {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block)
+          block.style.display = 'block'
+        })
+      })
+    }
+  })
+}
+document.querySelector('#target').innerHTML = ''
+more()
+setTimeout(()=> {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block)
+    block.style.display = 'block'
+  })
+}, 1000)
+
+let container = document.querySelector('.scroller')
+container.addEventListener("scroll", function(ev) {
+  if (container.scrollHeight < document.documentElement.clientHeight + container.scrollTop + 200) {
+    doItOnce()
+  }
+})
+
+var ex = null
+const getPrice = async (satoshis, tx) => {
+  if (ex === null) {
+    var url = 'https://www.relayx.io/v1/spot/currency/rate/10024'
+    var options = { headers: {devId: '1relayone'} }
+    ex = fetch(url, options)
+      .then(data => data.json())
+      .then(res => {
+        return Number(res.data.exchangeRate)
+      })
+  }
+  var displayPrice = '$' + Number(((satoshis / 100000000) / await ex)).toFixed(2)
+  if (displayPrice === '$0.00') {
+    displayPrice = '< 1¢'
+  }
+  var selection = '.price' + tx
+  document.querySelector(selection).innerText = await displayPrice
+}
+
+const decodeHtml = (html) => {
+  var doc = new DOMParser().parseFromString(html, 'text/html')
+  return doc.body.textContent || ''
+}
+
+const findLinks = (text) => {
+  let cleantext = decodeHtml(text)
+  let links = cleantext.replace(/(?!<a[^>]*?>)((https?|ftp|file):\/\/(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$]))(?![^<]*?<\/a>)/igm, '<a target="_blank" href="$1">$1</a>')
+  let tex = links.replace(/(?:(?:bit|b):\/\/)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])/igm, '<a target="_blank" href="https://bico.media/$&">$&</a>')
+  return tex
+}
+
+const displayBaemails = (baemails) => {
+  let allBaes = (baemails.u || []).concat((baemails.c || []))
+  var idx = 0
+  baecontent = allBaes.map((b) => {
+    var bae = ''
+    bae += `
+  <div class='baemail page'>
+    <div class='toFromHeader'>
+      <div class='txLink'>
+        <a target='_blank' href='https://whatsonchain.com/tx/${b.tx}'}>#tx</a>
+      </div>
+      <div class='author'>
+        Posted by ${b.from} for <span class='publicValueBox price${b.tx}'></span>
+      </div>
+    </div>`
+    var bodyParts = (((JSON.parse(b.baemail || []).body) || []).blocks || [])
+    bodycontent = bodyParts.map((block) => {
+      switch (block.type) {
+        case 'header': {
+          return `
+            <h2>${block.data.text}</h2>
+          `
+        }
+        case 'image': {
+          return `
+            <div><br /><br /><img src='${block.data.url}' class='embeddedImage' /><br /><br /></div>
+          `
+        }
+        case 'code': {
+          return `
+            <pre><code>${block.data.code}</code></pre>
+          `
+        }
+        case 'paragraph':
+          return `
+            <p>${findLinks(block.data.text)}</p>
+          `
+        case 'embed':
+          switch (block.data.service) {
+            case 'youtube':
+            case 'streamanity':
+              return `
+                <iframe width="100%" height="50%" class="videoEmbed" src="${block.data.embed}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              `
+            default:
+              return ``
+          }
+        case undefined:
+          return `
+            <pre>undefined data type</pre>
+          `
+        default:
+          return `
+            <p>${block.data.text}</p>
+          `
+      }
+    })
+    bodycontent.forEach((b) => {
+      bae += b
+    })
+    bae += `
+    <div id="tipButton${b.tx}" class="mbContain"></div>
+    <div class='actionFooter'>
+      <div class='controlButton L zerothButtonL' onClick="window.location.href='https://baemail.me/?to=${b.from}'">Respond</div>
+      <div class='controlButton R zerothButtonR warnHover' onClick="window.location.href='https://baemail.me/?to=deggen@probat.us'" title='Flag As Innappropriate'>!</div>
+      </div>
+    </div>
+  </div>
+  `
+    let newbae = document.createElement('DIV')
+    newbae.innerHTML = bae
+    document.querySelector('#target').appendChild(newbae)
+    idx += 1
+    getPrice(b.amount, b.tx)
+    var div = document.querySelector(`#tipButton${b.tx}`)
+    moneyButton.render(div, {
+      to: `${b.from}`,
+      amount: "0.10",
+      currency: "USD",
+      label: 'Tip Author',
+      buttonData: JSON.stringify({"Reason": `For your post on sought.info/${board}`, "tx": `${b.tx}`})
+    })
+  })
+}
+document.querySelector('.leadh1').innerText = board
+document.querySelector('.leadLink').href = `https://baemail.me/?to=${board}`
+</script>
+</div>
+</div>
+</body>
+</html>
