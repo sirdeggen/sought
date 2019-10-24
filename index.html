@@ -27,12 +27,7 @@
     </section>
   </main>
 <script>
-// find out which board we're on
-const url_string = window.location.href
-const url = new URL(url_string)
-let board = url.pathname.replace(/\//g,'')
-console.log(board)
-if (board === '') { board = 'sought'}
+let board = '*'}
 if (!board.includes('@')) { boardPaymail = board + '@moneybutton.com'} else { boardPaymail = board }
 
 let skip = 0
