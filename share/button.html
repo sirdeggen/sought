@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sought Composer</title>
+  <meta name="description" content="Sought Composer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- This line can go anywhere -->
+  <script src="https://www.moneybutton.com/moneybutton.js"></script>
+  <style>
+    body, html{
+      margin: 0;
+      border: none;
+      padding: 0;
+      font-size: 13px;
+    }
+    section{
+      border-top: 4px solid #4772f6;
+      max-width: 900px;
+      width: 80vw;
+      margin: 10px auto;
+      background: #fafafa;
+      padding: 30px;
+      font-family: Ubuntu, Helvetica, sans-serif;
+      box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 9px 0px;
+      border-radius: 12px;
+    }
+    #data{
+      width: 100%;
+      height: 200px;
+    }
+    nav{
+      margin-bottom: 50px;
+    }
+    nav a{
+      background: #EAEAEA;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+      float: right;
+    }
+
+    nav a:hover{
+      background: rgb(229, 77, 63);
+      color: white;
+    }
+    #tipwrap{
+      position: fixed;
+      margin: 0;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 6vh;
+      text-align: center;
+      background: #fff;
+      padding: 2vh;
+    }
+  </style>
+</head>
+<body>
+<section>
+<h1>Sought Composer</h1>
+<p>Send your thoughts or information to Sought Boards to help create a public source of valuable informatiton. Articles created here will be shown at sought.info/b/example where example is the name of the board you wish to post to.</p>
+
+<p>The information is posted to the BitCoinSV blockchain, so will likely be publically available forever. Please only post content you can stand by in a court of law. In other words, use the Aristotelian principle, and only post things which are either True, Good, or Useful. Preferably all three.</p>
+
+<p>For private encrypted messenges: please use <a href='https://baemail.me'>Baemail</a> instead.</p>
+<b>Board:</b>
+<input type="text" id="paymail" placeholder="paymail" onchange="burn()"><span id="domain">@moneybutton.com</span></input>
+<p id="feedback">Boards correspond to any fully functional paymail. moneybutton.com is the assumed doimain if not otherwise specified.</p>
+<b>Message</b><br><br>
+<textarea id="data" placeholder="Paste or write your message here." onchange="burn()"></textarea>
+<br><br>
+<div id="paymail-send-button"></div>
+<script>
+const div1 = document.querySelector('#paymail-send-button')
+moneyButton.render(div1, {
+  to: "d@moneybutton.com",
+  amount: "0.01",
+  disabled: true,
+  currency: "GBP",
+  type: "tip"
+})
+
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i=0, strLen=str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+const clearall = () => {
+  document.querySelector("#feedback").innerText = "Done!"
+}
+
+async function burn() {
+  var paymail = document.querySelector("#paymail").value
+  if ( !paymail.includes('@') ) {
+    paymail += '@moneybutton.com'
+    document.querySelector("#domain").style.display = 'inline'
+  }
+  else { document.querySelector("#domain").style.display = 'none' }
+  var data = document.querySelector("#data").value
+  var opreturn, buttondata = {}
+  var digestiveBiscuit = ""
+  var hooray = new ArrayBuffer()
+  var private = document.querySelector("#privacy").checked
+  if (private){
+    buttondata = JSON.stringify(data)
+    document.querySelector("#feedback").innerText = "Your message will be viewable in moneybutton only."
+    swipe = "Send Private"
+    await crypto.subtle.digest('sha-256', str2ab(data)).then(res => {
+      const crumb = JSON.stringify(btoa(String.fromCharCode(...new Uint8Array(res))))
+      return drawButton(paymail, swipe, crumb, buttondata)
+    })
+  } else {
+    buttondata = JSON.stringify(data)
+    opreturn = JSON.stringify(data)
+    opreturn = `Public Message to ${paymail}: \n` + opreturn
+    document.querySelector("#feedback").innerText = "Your message will be burnt to chain, so will be viewable to anyone who knows the txid in cleartext."
+    swipe = "Send Public"
+    return drawButton(paymail, swipe, opreturn, buttondata)
+  }
+}
+
+function drawButton (paymail, swipe, opreturn, buttondata) {
+  moneyButton.render(div1, {
+    to: paymail,
+    amount: "0.01",
+    currency: "USD",
+    label: swipe,
+    buttonData: buttondata,
+    opReturn: opreturn,
+    onPayment: clearall,
+    type: 'buy',
+    successMessage: 'Paymail Sent!'
+  })
+}
+</script>
+</section>
+</body>
+</html>
