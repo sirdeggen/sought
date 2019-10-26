@@ -128,7 +128,7 @@
 }
 
 .replyButton::before {
-  background-image: url(/static/icons/reply_black_20dp.png);
+  background-image: url(/icons/reply_black_20dp.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 20px;
