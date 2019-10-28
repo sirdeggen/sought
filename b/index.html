@@ -58,13 +58,13 @@ let more = async () => {
         'tx.h': 1, 'out.tape.cell': 1, 'out.e.v': 1
       },
       'sort': {
-        'out.1.e.v': -1
+        'out.2.e.v': -1
       },
       'limit': l,
       'skip': skip * l
     },
     'r': {
-      'f': '[ .[] | [{ to: .out[0].tape[1].cell[1].s, from: .out[0].tape[1].cell[2].s, baemail: (.out[0].tape[1].cell[3].s + .out[0].tape[1].cell[3].ls), tx: .tx.h, amount: .out[1].e.v }] | .[] ]'
+      'f': '[ .[] | [{ to: .out[0].tape[1].cell[1].s, from: .out[0].tape[1].cell[2].s, baemail: (.out[0].tape[1].cell[3].s + .out[0].tape[1].cell[3].ls), tx: .tx.h, amount: .out[2].e.v }] | .[] ]'
     }
   }
   var header = { headers: { key: '1BaesvDkcKN9jyLtVLWsUSTgDPDKSMVAii' } }
