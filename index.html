@@ -172,6 +172,24 @@ const displayBaemails = (baemails) => {
           return `
             <p>${findLinks(block.data.text)}</p>
           `
+        case 'list':
+          var fullList = ''
+          switch (block.data.style) {
+            case 'ordered':
+              fullList = '<ol>'
+              block.data.items.forEach(i => {
+                fullList += '<li>' + i + '</li>'
+              })
+              fullList += '</ol>'
+              return fullList
+            default:
+              fullList = '<ul>'
+              block.data.items.forEach(i => {
+                fullList += '<li>' + i + '</li>'
+              })
+              fullList += '</ul>'
+              return fullList
+          }
         case 'embed':
           switch (block.data.service) {
             case 'youtube':
