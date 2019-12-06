@@ -1,4 +1,4 @@
-import { buildRouter } from '@moneybutton/express-paymail'
+import buildRouter from '@moneybutton/express-paymail'
 import express from 'express'
 const API_REST_PORT = 5443
 
