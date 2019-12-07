@@ -2,7 +2,7 @@ const expressPaymail = require('@moneybutton/express-paymail')
 const express = require('express')
 const API_REST_PORT = 5443
 
-const BASE_URL = 'sought.info' // The library needs to know the actual url where the app is going to work
+const BASE_URL = 'https://sought.info' // The library needs to know the actual url where the app is going to work
 
 const paymailRouter = expressPaymail.buildRouter(BASE_URL, {
   basePath: '/api/bsvalias',
