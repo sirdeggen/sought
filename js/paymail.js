@@ -1,10 +1,10 @@
-import buildRouter from '@moneybutton/express-paymail'
-import express from 'express'
+const expressPaymail = require('@moneybutton/express-paymail')
+const express = require('express')
 const API_REST_PORT = 5443
 
 const BASE_URL = 'sought.info' // The library needs to know the actual url where the app is going to work
 
-const paymailRouter = buildRouter(BASE_URL, {
+const paymailRouter = expressPaymail.buildRouter(BASE_URL, {
   basePath: '/api/bsvalias',
   getIdentityKey: async (name, domain) => {
     // A paymail has the form `name@domain`. You can find the appropiate
