@@ -1,5 +1,6 @@
 const expressPaymail = require('@moneybutton/express-paymail')
 const express = require('express')
+const wallet = require('./wallet')
 const API_REST_PORT = 5443
 
 const BASE_URL = 'https://sought.info' // The library needs to know the actual url where the app is going to work
@@ -15,7 +16,9 @@ const paymailRouter = expressPaymail.buildRouter(BASE_URL, {
     // This method have to return a valid bitcoin outputs. The third parameter is the
     // body of the request and the fourth parameter is a js object containing handful
     // methods to create outputs.
-    return helpers.p2pkhFromAddress('1FJJkRqyxTKAVX3dGFpddERt9XRbiSRZkL')
+    // TODO could we add returning multiple outputs here?
+    const newAddress = wallet.generateAddress()
+    return helpers.p2pkhFromAddress(newAddress)
   },
   verifyPublicKeyOwner: async (name, domain, publicKeyToCheck) => {
     // Returns true if the public key belongs to the user owning `name@domain`, false in
